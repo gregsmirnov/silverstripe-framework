@@ -441,7 +441,7 @@ class Zend_Locale_Format
         // Add seperation
         if ($group == 0) {
             // no seperation
-            $format = $number . iconv_substr($format, $point);
+            $format = iconv_substr($format, 0, iconv_strpos($format, '#')) . $number . iconv_substr($format, $point);
         } else if ($group == $group2) {
             // only 1 seperation
             $seperation = ($point - $group);
