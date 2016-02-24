@@ -426,12 +426,12 @@ class Zend_Locale_Format
         }
 
         if ($options['precision'] == '0') {
-            if (iconv_strrpos($format, '-') != 0) {
-                $format = iconv_substr($format, 0, $point)
-                        . iconv_substr($format, iconv_strrpos($format, '#') + 2);
-            } else {
-                $format = iconv_substr($format, 0, $point);
+            $dec = iconv_strrpos($format, '0');
+            $dec1 = iconv_strrpos($format, '#');
+            if( $dec < $dec1 ) {
+                $dec = $dec1;
             }
+            $format = iconv_substr($format, 0, $point) . iconv_substr($format, $dec + 1);
         } else {
             $format = iconv_substr($format, 0, $point) . $symbols['decimal']
                                . iconv_substr($prec, 2);
