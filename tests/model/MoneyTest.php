@@ -315,11 +315,11 @@ class MoneyTest extends SapphireTest {
 	 * @covers Money::Nice
 	 * @dataProvider moneyCustomFormat
 	 */
-	public function testNiceFormat($locale, $amount, $currency, $format, $expected) {
+	public function testNiceFormat($locale, $amount, $currency, $format, $expected, $precision = null) {
 		i18n::set_locale($locale);
 		$m = new Money();
 		$m->setValue(array('Currency' => $currency, 'Amount' => $amount));
-		$formatted = $m->Nice(array('format' => $format));
+		$formatted = $m->Nice(compact('format', 'precision'));
 
 		$this->assertEquals( $expected, htmlentities($formatted) );
 	}
@@ -341,7 +341,8 @@ class MoneyTest extends SapphireTest {
 			array('da_DK', 1234567.89, 'EUR', '¤#0', '&euro;1234568'),
 			array('da_DK', -1234567.89, 'EUR', '¤#0', '-&euro;1234568'),
 			array('en_US', -1234567.89, 'EUR', '¤#0;(¤#0)', '(&euro;1234568)'),
-			array('en_US', -1234567.89, 'EUR', 'Total: ¤#0;Total: ¤ -#0', 'Total: &euro; -1234568'),
+			array('en_US', -1234567.89, 'EUR', 'Total: ¤#0 to pay;Total: ¤ -#0 to pay', 'Total: &euro; -1234568 to pay'),
+			array('en_US', 1234567.8990, 'EUR', '¤#0.### only', '&euro;1234568 only', 0),
 		);
 	}
 
