@@ -308,6 +308,42 @@ class MoneyTest extends SapphireTest {
 		$this->assertFalse($obj->MyMoney->hasAmount());
 	}
 
+	/**
+	 * Test custom number format as specified here
+	 * http://framework.zend.com/manual/1.12/en/zend.locale.parsing.html
+	 *
+	 * @covers Money::Nice
+	 * @dataProvider moneyCustomFormat
+	 */
+	public function testNiceFormat($locale, $amount, $currency, $format, $expected) {
+		i18n::set_locale($locale);
+		$m = new Money();
+		$m->setValue(array('Currency' => $currency, 'Amount' => $amount));
+		$formatted = $m->Nice(array('format' => $format));
+
+		$this->assertEquals( $expected, htmlentities($formatted) );
+	}
+
+	public function moneyCustomFormat() {
+		return array(
+			// native format
+			array('da_DK', 1234567.89, null, null, '1.234.567,89&nbsp;kr'),
+			// custom currency
+			array('da_DK', 1234567.89, 'EUR', null, '1.234.567,89&nbsp;&euro;'),
+			// custom format
+			array('da_DK', 1234567.89, 'EUR', '¤#,##0.00', '&euro;1.234.567,89'),
+			array('da_DK', -1234567.89, 'EUR', '¤#,##0.00;(¤#,##0.00);', '(&euro;1.234.567,89)'),
+			array('da_DK', 1234567.89, 'EUR', '#0.00 ¤', '1234567,89 &euro;'),
+			array('da_DK', 1234567, 'EUR', '#0.00 ¤', '1234567,00 &euro;'),
+			array('da_DK', 1234567.89, 'EUR', '¤#0.#', '&euro;1234567,9'),
+			array('da_DK', 1234567.899, 'EUR', '¤#0.00', '&euro;1234567,90'),
+			array('da_DK', 1234567.89, 'EUR', '¤#0.0', '&euro;1234567,9'),
+			array('da_DK', 1234567.89, 'EUR', '¤#0', '&euro;1234568'),
+			array('da_DK', -1234567.89, 'EUR', '¤#0', '&euro;1234568'),
+			array('en_US', -1234567.89, 'EUR', '¤#0;(¤#0)', '(&euro;1234568)'),
+		);
+	}
+
 }
 
 /**
