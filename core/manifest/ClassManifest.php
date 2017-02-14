@@ -52,7 +52,7 @@ class SS_ClassManifest {
 			13 => array(T_WHITESPACE, 'can_jump_to' => 10),
 			14 => array(T_WHITESPACE, 'optional' => true),
 			15 => '{',
-		));
+		), array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT));
 	}
 
 	/**
@@ -78,7 +78,7 @@ class SS_ClassManifest {
 			15 => array(T_WHITESPACE, 'can_jump_to' => 11),
 			16 => array(T_WHITESPACE, 'optional' => true),
 			17 => '{',
-		));
+		), array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT));
 	}
 
 	/**
@@ -92,7 +92,7 @@ class SS_ClassManifest {
 			3 => array(T_STRING, 'save_to' => 'namespaceName[]', 'can_jump_to' => 2),
 			4 => array(T_WHITESPACE, 'optional' => true),
 			5 => ';',
-		));
+		), array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT));
 	}
 
 	/**
@@ -103,7 +103,7 @@ class SS_ClassManifest {
 			0 => T_INTERFACE,
 			1 => T_WHITESPACE,
 			2 => array(T_STRING, 'save_to' => 'interfaceName')
-		));
+		), array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT));
 	}
 
 	/**
@@ -130,7 +130,7 @@ class SS_ClassManifest {
 			9 => array(',', 'save_to' => 'importString[]', 'optional' => true, 'can_jump_to' => 2),
 			10 => array(T_WHITESPACE, 'optional' => true, 'can_jump_to' => 2),
 			11 => ';',
-		));
+		), array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT));
 	}
 
 	/**

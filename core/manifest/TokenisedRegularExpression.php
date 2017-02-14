@@ -13,8 +13,11 @@ class TokenisedRegularExpression {
 	 */
 	protected $expression;
 
-	public function __construct($expression) {
+	protected $ignoredTokens = array();
+
+	public function __construct($expression, $ignoredTokens = array()) {
 		$this->expression = $expression;
+		$this->ignoredTokens = $ignoredTokens;
 	}
 
 	public function findAll($tokens) {
@@ -101,6 +104,9 @@ class TokenisedRegularExpression {
 				return $this->matchFrom($tokenPos, $expressionPos+1, $tokens, $matches);
 			}
 			else return true;
+		// if the current token is in the ignored list, move on to the next token
+		} else if (in_array($tokens[$tokenPos][0], $this->ignoredTokens)) {
+			return $this->matchFrom($tokenPos + 1, $expressionPos, $tokens, $matches);
 		}
 
 		return false;
